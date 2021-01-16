@@ -1,0 +1,12 @@
+.navbar {
+  position: fixed;
+  top: 2%;
+  right: 5%;
+  width: 50%;
+  z-index: 10;
+}
+.navs {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}

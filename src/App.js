@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import './App.css';
-import UserComponant from './Component/userComponant'
+import "bootstrap/dist/css/bootstrap.min.css";
+import Layout from './Component/Layout';
 
 class App extends Component {
 
@@ -10,7 +11,7 @@ class App extends Component {
   render(){
   return (
     <div className="App">
-      <UserComponant/>
+      <Layout/>
     </div>
   );
 }
