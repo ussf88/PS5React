@@ -3,7 +3,6 @@ import './login.css';
 import AuthService from "../Services/authService";
 
 
-
 export default class Login extends Component {
   constructor(props) {
     super(props);
@@ -64,7 +63,7 @@ export default class Login extends Component {
     return (
       <div className="col-md-6 login-center">
         <div className="card card-container">
-
+        <i className="fas fa-user"></i>
           <form onSubmit={this.handleLogin}>
             <div className="form-group">
               <label htmlFor="username">Username</label>

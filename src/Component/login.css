@@ -1,6 +1,9 @@
 .login-center {
-  border: 5px solid red;
   width: 60%;
   margin: auto;
   margin-top: 10%;
+}
+.login-center div i {
+  font-size: 100px;
+  color: rgb(53, 135, 212);
 }
