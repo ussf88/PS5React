@@ -4,6 +4,7 @@
   right: 5%;
   width: 50%;
   z-index: 10;
+  background-color: aquamarine;
 }
 .navs {
   display: flex;

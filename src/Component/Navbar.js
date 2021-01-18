@@ -11,7 +11,7 @@ const Navbar=()=>{
             <li><NavLink to="/coach">Coach</NavLink></li>
             <li><NavLink to="/nutri">Nutritionniste</NavLink></li>
             <li><NavLink to="/equipe">Equipe</NavLink></li>
-            <li><NavLink to="/profil">Profil</NavLink></li>
+            <li><NavLink to="/profile">Profil</NavLink></li>
             <li><NavLink to="/login">Login</NavLink></li>
             <li><NavLink to="/register">Register</NavLink></li>
           </ul>

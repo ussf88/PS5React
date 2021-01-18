@@ -13,6 +13,7 @@ export default class Register extends Component {
     this.onChangePassword = this.onChangePassword.bind(this);
     this.onChangeLastname = this.onChangeLastname.bind(this);
     this.onChangefirstname = this.onChangefirstname.bind(this);
+    this.onChangeUserRole=this.onChangeUserRole.bind(this);
 
     this.state = {
       username: "",
@@ -21,13 +22,19 @@ export default class Register extends Component {
       email: "",
       password: "",
       successful: false,
-      message: ""
+      message: "",
+      role:""
     };
   }
 
   onChangeUsername(e) {
     this.setState({
       username: e.target.value
+    });
+  }
+  onChangeUserRole(e) {
+    this.setState({
+      role: e.target.value
     });
   }
   onChangefirstname(e) {
@@ -63,8 +70,9 @@ export default class Register extends Component {
       successful: false
     });
 
-   
-      AuthService.register(
+   switch(this.state.role){
+     case "JOUEUR":
+      AuthService.registerJoueur(
         this.state.username,
         this.state.email,
         this.state.password,
@@ -79,6 +87,8 @@ export default class Register extends Component {
             message: response.data.message,
             successful: true
           });
+          this.props.history.push("/login");
+          window.location.reload();
         },
         error => {
           const resMessage =
@@ -94,6 +104,76 @@ export default class Register extends Component {
           });
         }
       );
+      break;
+     case "COACH":
+      AuthService.registerCoach(
+        this.state.username,
+        this.state.email,
+        this.state.password,
+        null,
+        this.state.firstName,
+        this.state.lastName,
+        null
+      ).then(
+        response => {
+          this.setState({
+            message: response.data.message,
+            successful: true
+          });
+          this.props.history.push("/login");
+          window.location.reload();
+        },
+        error => {
+          const resMessage =
+            (error.response &&
+              error.response.data &&
+              error.response.data.message) ||
+            error.message ||
+            error.toString();
+
+          this.setState({
+            successful: false,
+            message: resMessage
+          });
+        }
+      );
+      break;
+     case "NUTRITIONNISTE":
+        AuthService.registerNUTRITIONNISTE(
+          this.state.username,
+          this.state.email,
+          this.state.password,
+          null,
+          this.state.firstName,
+          this.state.lastName,
+          null
+        ).then(
+          response => {
+            this.setState({
+              message: response.data.message,
+              successful: true
+            });
+            this.props.history.push("/login");
+            window.location.reload();
+          },
+          error => {
+            const resMessage =
+              (error.response &&
+                error.response.data &&
+                error.response.data.message) ||
+              error.message ||
+              error.toString();
+  
+            this.setState({
+              successful: false,
+              message: resMessage
+            });
+          }
+        );
+        break; 
+
+   }
+      
   }
 
   render() {
@@ -157,6 +237,15 @@ export default class Register extends Component {
                     value={this.state.password}
                     onChange={this.onChangePassword}
                   />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="role">Role</label>
+                  <select value={this.state.role}
+                    onChange={this.onChangeUserRole}>
+                    <option value="JOUEUR" defaultValue>JOUEUR</option>
+                    <option value="COACH">Coach</option>
+                    <option value="NUTRITIONNISTE">NUTRITIONNISTE</option>
+                  </select>
                 </div>
 
                 <div className="form-group">

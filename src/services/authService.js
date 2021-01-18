@@ -22,7 +22,7 @@ class AuthService {
     localStorage.removeItem("user");
   }
 
-  register(username, email, password,roles,firstName,lastName,equipeCoach,equipeNutritionniste) {
+  registerJoueur(username, email, password,roles,firstName,lastName,equipeCoach,equipeNutritionniste) {
     return axios.post(API_URL + "signup", {
       username,
       email,
@@ -32,6 +32,29 @@ class AuthService {
       lastName,
       equipeCoach,
       equipeNutritionniste
+    });
+  }
+
+  registerCoach(username, email, password,roles,firstName,lastName,equipe) {
+    return axios.post(API_URL + "signup/coach", {
+      username,
+      email,
+      password,
+      roles,
+      firstName,
+      lastName,
+      equipe
+    });
+  }
+  registerNUTRITIONNISTE(username, email, password,roles,firstName,lastName,equipe) {
+    return axios.post(API_URL + "signup/nutritionniste", {
+      username,
+      email,
+      password,
+      roles,
+      firstName,
+      lastName,
+      equipe
     });
   }
 
