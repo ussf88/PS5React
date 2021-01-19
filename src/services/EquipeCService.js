@@ -15,14 +15,13 @@ const API_URL = 'http://localhost:8080/equipeCoachs';
      }
 
      getEquipeByCoach(coachId){
-        return axios.get(API_URL,{
-            coach:coach,
-            joueurs:joueurs,
-            planning:planning
-        }, { headers: authHeader() });
+        return axios.get(API_URL+"/coach/"+coachId, { headers: authHeader() });
      }
-     }
- }
+
+     
+
+    }    
+
 
 
  export default new EquipeCService();

@@ -2,15 +2,30 @@ import React, { Component } from "react";
 import AuthService from "../Services/authService";
 import './profile.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Dropdown from 'react-bootstrap/Dropdown';
+import {Dropdown,Button} from 'react-bootstrap';
+import cardimg from '../../src/assets/images/running-man.png';
+import Card from 'react-bootstrap/Card';
 import EquipeCService from '../Services/EquipeCService';
 export default class Profile extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      currentUser: AuthService.getCurrentUser()
+      currentUser: AuthService.getCurrentUser(),
+      equipes:[]
     };
+  }
+  componentDidMount(){
+    EquipeCService.getEquipeByCoach(AuthService.getCurrentUser().user.id)
+    .then( response => {
+      console.log(response);
+        this.setState( { equipes: response.data } );
+        // console.log( response );
+    } )
+    .catch( error => {
+        console.log( error );
+        // this.setState({error: true});
+    } );
   }
  logout =()=>{
     AuthService.logout();
@@ -18,8 +33,18 @@ export default class Profile extends Component {
     window.location.reload();
   }
 
-  addEquipe(){
+  addEquipe=()=>{
     EquipeCService.addEquipeC();
+    EquipeCService.getEquipeByCoach(AuthService.getCurrentUser().user.id)
+    .then( response => {
+      console.log(response);
+        this.setState( { equipes: response.data } );
+        // console.log( response );
+    } )
+    .catch( error => {
+        console.log( error );
+        // this.setState({error: true});
+    } );
   }
 
   render() {
@@ -48,7 +73,22 @@ export default class Profile extends Component {
     }
 
 if(currentUser.user.roles[0].name=="COACH"){
-  content="coach";
+  const equipes=this.state.equipes;
+  content=equipes.map(equipe=>{
+    return (
+      <Card key={equipe.id} style={{ width: '18rem' }}>
+  <Card.Img variant="top" src={cardimg} />
+  <Card.Body>
+    <Card.Title>{equipe.id}</Card.Title>
+    <Card.Text>
+      Some quick example text to build on the card title and make up the bulk of
+      the card's content.
+    </Card.Text>
+    <Button variant="primary">Go somewhere</Button>
+  </Card.Body>
+      </Card>
+    )
+  });
 }
 
 if(currentUser.user.roles[0].name=="NUTRITIONNISTE"){
@@ -58,7 +98,6 @@ if(currentUser.user.roles[0].name=="NUTRITIONNISTE"){
     return (
     <div className="row  profile-body">
     <div className="col-md-12 mx-auto">
-      {/* Profile widget */}
       <div className="bg-white shadow rounded overflow-hidden">
         <div className="px-4 pt-0 pb-4 cover">
           <div className="media align-items-end profile-head">
