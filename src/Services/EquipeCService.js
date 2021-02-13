@@ -18,6 +18,10 @@ const API_URL = 'http://localhost:8080/equipeCoachs';
         return axios.get(API_URL+"/coach/"+coachId, { headers: authHeader() });
      }
 
+     getEquipeById(EId){
+      return axios.get(API_URL+"/"+EId, { headers: authHeader() });
+     }
+
      
 
     }    

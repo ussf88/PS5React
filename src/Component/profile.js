@@ -32,6 +32,15 @@ export default class Profile extends Component {
     this.props.history.push("/login");
     window.location.reload();
   }
+  showEquipe=(Eid)=>{
+    this.props.history.push({
+      pathname:"/equipe",
+      state:{
+        id:Eid,
+        type:"coach"
+      }
+    });
+  }
 
   addEquipe=()=>{
     EquipeCService.addEquipeC();
@@ -84,7 +93,7 @@ if(currentUser.user.roles[0].name=="COACH"){
       Some quick example text to build on the card title and make up the bulk of
       the card's content.
     </Card.Text>
-    <Button variant="primary">Go somewhere</Button>
+    <Button variant="primary" onClick={()=>{this.showEquipe(equipe.id)}}>Go somewhere</Button>
   </Card.Body>
       </Card>
     )
