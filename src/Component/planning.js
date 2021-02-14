@@ -13,7 +13,8 @@ export default class planning extends Component{
         duration1:0,
         contenu1:"",
         duration2:0,
-        contenu2:""
+        contenu2:"",
+        EquipeId:this.props.location.state.Equipeid
     }
 
     changeweek=(e)=>{
@@ -61,7 +62,7 @@ export default class planning extends Component{
       if(mystate.plannings != undefined && mystate.plannings.length != 0){
         id=mystate.plannings[mystate.plannings.length-1].id+1;
       }
-     planningService.addPlanning(mystate.week,mystate.jour,mystate.desc,mystate.duration1,mystate.duration2,mystate.contenu1,mystate.contenu2,id)
+     planningService.addPlanning(mystate.EquipeId,mystate.week,mystate.jour,mystate.desc,mystate.duration1,mystate.duration2,mystate.contenu1,mystate.contenu2,id)
      .then( 
     
 

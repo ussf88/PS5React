@@ -3,8 +3,8 @@ import authHeader from './authHeader';
 import seanceService from './seanceService';
 const API_URL = 'http://localhost:8080/planning';
  class planningService{
-     addPlanning(week,jour,desc,duration1,duration2,contenu1,contenu2,id){
-      return axios.post(API_URL,{
+     addPlanning(EquipeId,week,jour,desc,duration1,duration2,contenu1,contenu2,id){
+      return axios.post(API_URL+'/'+EquipeId,{
          week:week
      }, { headers: authHeader() }).then(reponse=>{
         seanceService.addSeanceWithExo(jour,desc,duration1,duration2,contenu1,contenu2,id);

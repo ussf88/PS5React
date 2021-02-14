@@ -19,6 +19,15 @@ const API_URL = 'http://localhost:8080/seances';
             contenu
          }, { headers: authHeader() });
      }
+     updateExo(duration,contenu,ExoId){
+        return axios.put("http://localhost:8080/exercice/"+ExoId,{
+            duration,
+            contenu
+         }, { headers: authHeader() });
+     }
+     deleteExo(ExoId){
+        return axios.delete("http://localhost:8080/exercices/"+ExoId, { headers: authHeader() });
+     }
 
 
      }

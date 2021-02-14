@@ -6,6 +6,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import planningService from '../Services/planningService';
 import seanceService from '../Services/seanceService';
 import ExoService from '../Services/ExerciceService';
+import ExerciceService from "../Services/ExerciceService";
 export default class PlanningDetails extends Component {
 
 
@@ -21,7 +22,10 @@ export default class PlanningDetails extends Component {
         exoSid:0,
         showModelExo:false,
         exoDuration:0,
-        exoContenu:""
+        exoContenu:"",
+        selectedExoDuration:0,
+        selectedExoContenu:"",
+        selectedExoId:0
 
     }
     changedur=(e)=>{
@@ -96,6 +100,30 @@ export default class PlanningDetails extends Component {
         this.setState({sid:id});
         this.toggleModelDelete();
     }
+    setSelectedExo=(duration,contenu,id)=>{
+      this.setState({selectedExoContenu:contenu,selectedExoDuration:duration,selectedExoId:id});
+    }
+    updateExo=()=>{
+      const state=this.state;
+      ExerciceService.updateExo(state.selectedExoDuration,state.selectedExoContenu,state.selectedExoId).then(reponse=>{
+        planningService.getPlanning(this.state.pid)
+        .then( response => {
+            this.setState( { planning: response.data } );
+            console.log(response);
+            // console.log( response );
+        } );
+      });
+    }
+    deleteExo=()=>{
+      ExerciceService.deleteExo(this.state.selectedExoId).then(reponse=>{
+        planningService.getPlanning(this.state.pid)
+        .then( response => {
+            this.setState( { planning: response.data } );
+            console.log(response);
+            // console.log( response );
+        } );
+      });
+    }
     changeSeance=()=>{
         seanceService.changeSeance(this.state.jour,this.state.description,this.state.pid).then(reponse=>{
             this.toggleModelChange();
@@ -114,6 +142,15 @@ export default class PlanningDetails extends Component {
       changedesc=(e)=>{
         const value=e.target.value;
         this.setState({description:value});
+      }
+      changedurSelectedExo=(e)=>{
+        const value=e.target.value;
+        this.setState({selectedExoDuration:value});
+      }
+
+      changecntSelectedExo=(e)=>{
+        const value=e.target.value;
+        this.setState({selectedExoContenu:value});
       }
 
     componentDidMount(){
@@ -149,7 +186,7 @@ export default class PlanningDetails extends Component {
                 {seance.exercises.map(exo=>{
                     return(
                          <td>Duration :{exo.duration}min <br/>
-                    more 
+                    <Button variant="info" onClick={()=>this.setSelectedExo(exo.duration,exo.contenu,exo.id)}>Selectionner</Button> 
                     </td>
                     );
                 })}
@@ -292,7 +329,20 @@ export default class PlanningDetails extends Component {
           </Button>
         </Modal.Footer>
       </Modal>
+      <h1>Exercice Selectionneé</h1>
 
+      <Form.Group controlId="formBasicRange">
+    <Form.Label>Duration {this.state.selectedExoDuration} min</Form.Label>
+    <Form.Control type="range" value={this.state.selectedExoDuration} onChange={this.changedurSelectedExo}/>
+  </Form.Group>
+  <Form.Label>Contenu</Form.Label>
+    <Form.Control type="text" placeholder="contenu" value={this.state.selectedExoContenu} onChange={this.changecntSelectedExo}/>
+    <Button variant="secondary" onClick={this.updateExo}>
+            Modifier Exo
+          </Button>
+          <Button variant="primary" onClick={this.deleteExo}>
+            Supprimer Exo
+          </Button>
 
 
       </div>
